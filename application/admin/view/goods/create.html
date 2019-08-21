@@ -1,0 +1,90 @@
+{extend name="base" /}
+
+{block name="content"}
+	<form method="post" {if empty($goods)} action="{:url('admin/goods/save')}"  {else /} action="{:url('admin/goods/update', ['id' => $goods['id']])}" {/if} enctype="multipart/form-data">
+		<div class="form-group col-5">
+			<label>商品名称</label>
+			<input type="text" name="name" class="form-control" value="{$goods->name??''}">
+		</div>
+
+		<div class="form-group col-5">
+			<label>所属分类</label>
+			<select class="form-control" name="category_id">
+				{foreach $categories as $v}
+					<option value="{$v->id}" selected={:isset($goods)? $v->id == $goods->category->id:false}>{$v->name}</option>
+				{/foreach}
+			</select>
+		</div>
+
+		<div class="form-group col-5">
+			<label>商品价格</label>
+			<input type="number" name="price" class="form-control" value="{$goods->price??''}">
+		</div>
+
+		<div class="form-group col-5">
+			<label>店铺价格</label>
+			<input type="number" name="shop_price" class="form-control" value="{$goods->shop_price??''}">
+		</div>
+		<div class="form-group col-5">
+			<label>会员价格</label>
+			<input type="number" name="member_price" class="form-control" value="{$goods->member_price??''}">
+		</div>
+
+		<div class="form-group col-5">
+			<label>团购价格</label>
+			<input type="number" name="group_buy_price" class="form-control" value="{$goods->group_buy_price??''}">
+		</div>
+		
+		<div class="form-group col-5">
+			<label>团购周期(小时)</label>
+			<input type="number" name="group_buy_time" class="form-control" value="{$goods->group_buy_time??''}">
+		</div>
+
+		<div class="form-group col-5">
+			<label>销售类型</label>
+			<input type="radio" name="type" value="1" {if empty($goods)} checked="true" {else/} {$goods->type ==1 ? 'checked' : ''} {/if}>拼团
+			<input type="radio" name="type"  value="2" {if !empty($goods)} {if $goods->type == 2} checked {/if} {/if}>砍价
+		</div>
+		<div class="form-group col-5">
+			<label>砍价周期(小时)</label>
+			<input type="number" name="bargin_time" class="form-control" value="{$goods->bargin_time??''}">
+		</div>
+		<div class="form-group col-5">
+			<label>砍价最低价</label>
+			<input type="number" name="bargin_price" class="form-control" value="{$goods->bargin_price??''}">
+		</div>
+
+		<div class="form-group col-5">
+			<label>库存</label>
+			<input type="number" name="stock" class="form-control" value="{$goods->stock??''}">
+		</div>
+		<div class="form-group col-5">
+			<label>是否上架</label>
+			<input type="radio" name="on-sale" value="1" {if empty($goods)} checked {else/} {$goods->on_sale? 'checked':''} {/if}>是
+			<input type="radio" name="on_sale"  value="0" {if !empty($goods)} {$goods->on_sale == 0? 'checked' : ''} {/if}>否
+		</div>
+		<div class="form-group col-5">
+			<label>商品描述</label>
+			<textarea class="form-control" name="description" rows="6">{$goods->description??''}</textarea>
+		</div>
+		<div class="form-group col-5">
+			<label>图片</label>
+			<input type="file" name="pictures[]" multiple="true" class="form-control">
+		</div>
+		{if !empty($goods) && !$goods->pictures->isEmpty()}
+			<div class="row mb-2">
+			{foreach $goods->pictures as $pic}
+				<input type="hidden" name="old_picture[][path]" value="{$pic->path}">
+				<div class="col-auto">
+					<img src="/static/uploads/{$pic->path}" width="50" height="50">
+				</div>
+			{/foreach}
+		    </div>
+		{/if}
+		<input type="hidden" name="shop_id" value="{$shop_id}">
+		<div class="form-group col-5">
+			<label></label>
+			<button class="btn btn-primary" type="submit">确定</button>
+		</div>
+	</form>
+{/block}

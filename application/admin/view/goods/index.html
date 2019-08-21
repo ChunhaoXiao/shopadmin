@@ -1,0 +1,71 @@
+{extend name="base" /}
+{block name="content"}
+	<a class="btn btn-primary text-white" href="{:url('admin/goods/create', ['shop_id' => request()->shop_id])}">添加</a>
+
+	<table class="table table-hover table-borderless">
+		
+		<thead>
+			<th></th>
+			<th>商品名称</th>
+			<th>价格</th>
+			<th>本店价</th>
+			<th>会员价</th>
+			<th>团购价</th>
+			<th>砍价</th>
+			<th>创建时间</th>
+			<th></th>
+			<th>操作</th>
+		</thead>
+		<tbody>
+			{foreach $datas as $v}
+				<tr>
+					<td>
+						{if !$v->pictures->isEmpty()}
+						<img src="/static/uploads/{$v.pictures[0]['path']}" width="40" height="40">
+						{/if}
+						
+					</td>
+					<td>{$v->name}</td>
+					<td>{$v->price}</td>
+					<td>{$v->shop_price}</td>
+					<td>{$v->member_price}</td>
+					<td>{$v->group_buy_price}</td>
+					<td>{$v->bargin_price}</td>
+					<td>{$v->create_time}</td>
+					<td id="on_sale">
+						<span class="{$v->on_sale? 'btn btn-success btn-sm':'btn btn-danger btn-sm'}" data-url="{:url('admin/goods/update', ['id' => $v->id])}">{$v->on_sale? '已上架':'已下架'}</span>
+					</td>
+					<td><a class="btn" href="{:url('admin/goods/edit', ['id' => $v->id])}">编辑</a> |　<a class="btn" href="javascript:;" data-url="{:url('admin/goods/delete', ['id' => $v->id])}" data-type="delete">删除</a></td>
+				</tr>
+			{/foreach}
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		$(function(){
+			$("td span").on('click', function(){
+				const url = $(this).data('url');
+				$.ajax({
+					
+					url:url,
+					type:'post',
+					success:(res) => {
+						console.log(res.data)
+						$(this).removeClass();
+						let str = res.data == 1? '已上架':'已下架';
+						if(res.data == 1)
+						{
+							$(this).addClass('btn btn-success btn-sm');
+						}
+						else
+						{
+							$(this).addClass('btn btn-danger btn-sm');
+						}
+						$(this).html(str);
+						// let str = res.data.data
+						//$(this).html();
+					}	
+				})
+			})
+		})
+	</script>
+{/block}

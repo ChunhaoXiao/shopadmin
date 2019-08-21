@@ -1,0 +1,30 @@
+{extend name="base" /}
+{block name="content"}
+	<a class="btn btn-primary text-white" href="{:url('admin/shop/create')}">添加</a>
+
+	<table class="table table-hover table-borderless">
+		
+		<thead>
+			<th>店铺名称</th>
+			<th>地址</th>
+			<th>电话</th>
+			<th>店主</th>
+			<th>创建时间</th>
+			<th></th>
+			<th>操作</th>
+		</thead>
+		<tbody>
+			{foreach $datas as $key => $v}
+				<tr>
+					<td>{$v->name}</td>
+					<td>{$v->address}</td>
+					<td>{$v->phone}</td>
+					<td></td>
+					<td>{$v->create_time}</td>
+					<td><a href="{:url('admin/goods/index', ['shop_id' => $v->id])}">商品管理</a></td>
+					<td></td>
+				</tr>
+			{/foreach}
+		</tbody>
+	</table>
+{/block}

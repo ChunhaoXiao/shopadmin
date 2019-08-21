@@ -1,0 +1,36 @@
+{extend name="base" /}
+
+{block name="content"}
+	<form method="post" action="{:url('admin/shop/save')}" enctype="multipart/form-data">
+		<div class="form-group col-5">
+			<label>店铺名称</label>
+			<input type="text" name="name" class="form-control">
+		</div>
+		<div class="form-group col-5">
+			<label>店铺地址</label>
+			<input type="text" name="address" class="form-control">
+		</div>
+		<div class="form-group col-5">
+			<label>联系电话</label>
+			<input type="text" name="phone" class="form-control">
+		</div>
+		<div class="form-group col-5">
+			<label>店铺封面</label>
+			<input type="file" name="pic"  class="form-control">
+		</div>
+		<div class="form-group col-5">
+			<label>是否推荐</label>
+			<input type="radio" name="is_recommend" value="1">是
+			&nbsp;&nbsp;&nbsp;
+			<input type="radio" name="is_recommend" value="0" checked="true">否
+		</div>
+		<div class="form-group col-5">
+			<label>店铺描述</label>
+			<textarea  name="description" class="form-control" rows="6"></textarea>
+		</div>
+		<div class="form-group col-5">
+			<label></label>
+			<button class="btn btn-primary" type="submit">确定</button>
+		</div>
+	</form>
+{/block}

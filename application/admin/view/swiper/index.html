@@ -1,0 +1,27 @@
+{extend name="base" /}
+{block name="content"}
+	<a class="btn btn-primary text-white" href="{:url('admin/swiper/create')}">添加</a>
+
+	<table class="table table-hover table-borderless">
+		
+		<thead>
+			<th>图片</th>
+			<th>链接</th>
+			<th>是否显示</th>
+			<th>排序</th>
+			
+			<th>操作</th>
+		</thead>
+		<tbody>
+			{foreach $datas as $k => $v}
+				<tr>
+					<td><img src="/static/uploads/{$v->picture}" width="80" height="80"></td>
+					<td>{$v->link_url}</td>
+					<td>{$v->is_show ? '显示':'不显示'}</td>
+					<td>{$v->order}</td>
+				</tr>
+			{/foreach}
+			
+		</tbody>
+	</table>
+{/block}
