@@ -8,12 +8,23 @@
 		</div>
 		<div class="form-group col-5">
 			<label>店铺地址</label>
-			<input type="text" name="address" class="form-control">
+			<input type="text" name="address" class="form-control" id="address">
+			<input type="" id="lng" name="latitude">
+			<input type="" id="lat" name="longitude">
 		</div>
 		<div class="form-group col-5">
 			<label>联系电话</label>
 			<input type="text" name="phone" class="form-control">
 		</div>
+		<div class="form-group col-5">
+			<label>开始营业时间</label>
+			<input type="time" name="open_time" class="form-control">
+		</div>
+		<div class="form-group col-5">
+			<label>结束营业时间</label>
+			<input type="time" name="close_time" class="form-control">
+		</div>
+
 		<div class="form-group col-5">
 			<label>店铺封面</label>
 			<input type="file" name="pic"  class="form-control">
@@ -33,4 +44,26 @@
 			<button class="btn btn-primary" type="submit">确定</button>
 		</div>
 	</form>
+
+	<script type="text/javascript">
+        var geocoder = null;
+        geocoder = new qq.maps.Geocoder();
+
+        function getLocation()
+        {
+          var address = $('#address').val();
+          console.log(address);
+          geocoder.setComplete(function(result) {
+          var pos = result.detail.location;
+          $('#lng').val(pos.lng);
+          $('#lat').val(pos.lat);
+          });
+
+          geocoder.setError(function() {
+              alert("出错了，请输入正确的地址！！！");
+          });
+          geocoder.getLocation(address);
+        }
+    </script>
+
 {/block}

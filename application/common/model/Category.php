@@ -11,6 +11,11 @@ class Category extends Model
     	return $this->hasMany(Goods::class);
     }
 
+    public function cate()
+    {
+    	return $this->belongsTo(Category::class, 'fid');
+    }
+
     public function scopeTop($query)
     {
     	return $query->where('fid', 0);

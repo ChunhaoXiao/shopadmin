@@ -1,7 +1,7 @@
 {extend name="base" /}
 
 {block name="content"}
-	<form method="post" action="{:url('admin/category/save')}" enctype="multipart/form-data">
+	<form method="post" {if isset($data)} action="{:url('admin/category/update', ['id' => $data->id])}" {else/} action="{:url('admin/category/save')}" {/if} enctype="multipart/form-data">
 		<div class="form-group col-5">
 			<label>上级分类</label>
 			<select class="form-control" name="fid">
@@ -14,16 +14,19 @@
 
 		<div class="form-group col-5">
 			<label>分类名称</label>
-			<input type="text" name="name" class="form-control">
+			<input type="text" name="name" class="form-control" value="{$data->name??''}">
 		</div>
 
 		<div class="form-group col-5">
 			<label>排序</label>
-			<input type="number" name="xh" class="form-control">
+			<input type="number" name="xh" class="form-control" value="{$data->xh??0}">
 		</div>
 		<div class="form-group col-5">
 			<label>图标</label>
 			<input type="file" name="icon" class="form-control">
+			{if isset($data) && $data->icon}
+				<img src="/static/uploads/{$data->icon}" width="40" height="40">
+			{/if}
 		</div>
 	
 		<div class="form-group col-5">

@@ -3,6 +3,23 @@
 	<a class="btn btn-primary text-white" href="{:url('admin/category/create', ['shop_id' => request()->shop_id])}">添加</a>
 
 	<table class="table table-hover table-borderless">
-	
+		<thead>
+			<th>分类名称</th>
+			<th>上级分类</th>
+			<th>图标</th>
+			<th>排序</th>
+			<th>操作</th>
+		</thead>
+		<tbody>
+			{foreach $datas as $v}
+				<tr>
+					<td>{$v->name}</td>
+					<td>{$v->cate->name??'顶级分类'}</td>
+					<td>{if $v->icon}<img src="/static/uploads/{$v->icon}" width="40" height="40">{/if}</td>
+					<td>{$v->xh}</td>
+					<td><a class="btn" href="{:url('admin/category/edit', ['id' => $v->id])}">修改</a> | <a class="btn" href="javascript:;">删除</a></td>
+				</tr>
+			{/foreach}
+		</tbody>
 	</table>
 {/block}
