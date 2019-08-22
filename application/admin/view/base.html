@@ -90,6 +90,12 @@
         </a>
       </li>
       <li class="nav-item active">
+        <a class="nav-link" href="{:url('admin/section/index')}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>首页栏目</span>
+        </a>
+      </li>
+      <li class="nav-item active">
         <a class="nav-link" href="{:url('admin/shop/index')}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>店铺管理</span>
@@ -170,7 +176,7 @@
   <script type="text/javascript" src="/static/vendor/bootbox/bootbox.all.js"></script>
   <script type="text/javascript">
     $(function(){
-      $("a[data-type='delete']").on('click', function(e){
+      $("a[data-type=delete]").on('click', function(e){
         const url = $(this).data('url');
       
         bootbox.confirm("确定删除？", function(result){ 

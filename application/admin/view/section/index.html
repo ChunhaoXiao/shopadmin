@@ -1,0 +1,24 @@
+{extend name="base" /}
+{block name="content"}
+	<a class="btn btn-primary text-white" href="{:url('admin/section/create')}">添加</a>
+
+	<table class="table table-hover table-borderless">
+		<thead>
+			<th>名称</th>
+			<th>链接</th>
+			<th>图标</th>
+			<th>排序</th>
+			<th></th>
+		</thead>
+
+		{foreach $datas as $v}
+			<tr>
+				<td>{$v->name}</td>
+				<td>{$v->url}</td>
+				<td><img src="/static/uploads/{$v->icon}" width="50" height="50"></td>
+				<td>{$v->order}</td>
+				<td><a class="btn" href="{:url('admin/section/edit', ['id' => $v->id])}">修改</a> | <a class="btn" href="javascript:;" data-type="delete" data-url="{:url('admin/section/delete', ['id' => $v->id])}">删除</a></td>
+			</tr>
+		{/foreach}
+	</table>
+{/block}

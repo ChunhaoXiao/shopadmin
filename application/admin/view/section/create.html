@@ -1,0 +1,35 @@
+{extend name="base" /}
+
+{block name="content"}
+	<form method="post" {if isset($data)} action="{:url('admin/section/update', ['id' => $data->id])}" {else /} action="{:url('admin/section/save')}" {/if} enctype="multipart/form-data">
+		<div class="form-group col-5">
+			<label>栏目名称</label>
+			<input type="text" name="name" class="form-control" value="{$data->name??''}">
+		</div>
+
+		<div class="form-group col-5">
+			<label>栏目图标</label>
+			<input type="file" name="icon" class="form-control">
+			{if isset($data) && $data['icon']}
+				<img class="m-2" src="/static/uploads/{$data->icon}" width="50" height="50">
+			{/if}
+		</div>
+
+
+		<div class="form-group col-5">
+			<label>跳转地址</label>
+			<input type="text" name="url" class="form-control" value="{$data->url??''}">
+		</div>
+
+		<div class="form-group col-5">
+			<label>排序</label>
+			<input type="number" name="order" class="form-control" value="{$data->order??''}">
+		</div>
+
+	
+		<div class="form-group col-5">
+			<label></label>
+			<button class="btn btn-primary" type="submit">确定</button>
+		</div>
+	</form>
+{/block}

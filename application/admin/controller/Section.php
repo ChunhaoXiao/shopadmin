@@ -5,9 +5,10 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 use app\common\utils\Upload;
-use app\admin\validate\Swiper as swiperValidator;
-use app\common\model\Swiper as swiperModel;
-class Swiper extends Controller
+use app\admin\validate\Section as validator;
+use app\common\model\Section as sectionModel;
+
+class Section extends Controller
 {
     /**
      * 显示资源列表
@@ -16,8 +17,7 @@ class Swiper extends Controller
      */
     public function index()
     {
-        $datas = swiperModel::order('xh')->all();
-        //dump($datas);
+        $datas = sectionModel::order('order')->all();
         return view('index', ['datas' => $datas]);
     }
 
@@ -39,20 +39,20 @@ class Swiper extends Controller
      */
     public function save(Request $request, Upload $upload)
     {
-        $datas = $request->post() + $request->file();
-        $res = $this->validate($datas, swiperValidator::class);
+        $data = $_FILES['icon']['error'] > 0 ? $request->post() : $request->post() + $request->file();
+
+        $res = $this->validate($data, validator::class);
         if($res !== true)
         {
             $this->error($res);
-        }
-        $path = $upload->store($datas['picture']);
-        if(!is_array($path))
+        }  
+        if(!empty($data['icon']))
         {
-            $this->error($path);
+            $path = $upload->store($data['icon']);
+            $data['icon'] = $path[0];
         }
-        $datas['picture'] = $path[0];
-        swiperModel::create($datas);
-        $this->success('添加成功', 'swiper/index',1);
+        sectionModel::create($data);
+        $this->success('添加成功', 'section/index');
     }
 
     /**
@@ -63,7 +63,7 @@ class Swiper extends Controller
      */
     public function read($id)
     {
-
+        //
     }
 
     /**
@@ -74,8 +74,7 @@ class Swiper extends Controller
      */
     public function edit($id)
     {
-        
-        $data = swiperModel::getOrFail($id);
+        $data = sectionModel::getOrFail($id);
         return view('create', ['data' => $data]);
     }
 
@@ -88,27 +87,21 @@ class Swiper extends Controller
      */
     public function update(Request $request, Upload $upload,$id)
     {
-        $swiper = swiperModel::getOrFail($id);
-        if($request->isAjax() && $request->action == 'is_show')
-        {
-            $swiper->is_show = $swiper->is_show == 1 ?0 : 1;
-            $swiper->save();
-            return json(['status' => 1, 'data' => $swiper->is_show]);
-        }
-
-        $datas = $_FILES['picture']['error'] > 0 ? $request->post() : $request->post() + $request->file();
-        $res = $this->validate($datas, 'app\admin\validate\Swiper.update');
+        $section = sectionModel::getOrFail($id);
+        $data = $_FILES['icon']['error'] > 0 ? $request->post() : $request->post() + $request->file();
+        $res = $this->validate($data, validator::class);
         if($res !== true)
         {
             $this->error($res);
-        }
-        if(!empty($datas['picture']))
+        }  
+        if(!empty($data['icon']))
         {
-            $path = $upload->store($datas['picture']);
-            $datas['picture'] = $path[0];
+            $path = $upload->store($data['icon']);
+            $data['icon'] = $path[0];
         }
-        $swiper->save($datas, ['id' => $id]);
-        $this->success('修改成功', 'swiper/index');
+       
+        $section->save($data, ['id' => $id]);
+        $this->success('修改成功', 'section/index');
     }
 
     /**
@@ -119,7 +112,8 @@ class Swiper extends Controller
      */
     public function delete($id)
     {
-        swiperModel::destroy($id);
+        $data = sectionModel::getOrFail($id);
+        $data->delete();
         return json(['status' => 1]);
     }
 }

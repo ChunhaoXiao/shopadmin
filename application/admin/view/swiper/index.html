@@ -6,7 +6,7 @@
 		
 		<thead>
 			<th>图片</th>
-			<th>链接</th>
+			<th>店铺id</th>
 			<th>是否显示</th>
 			<th>排序</th>
 			
@@ -15,13 +15,44 @@
 		<tbody>
 			{foreach $datas as $k => $v}
 				<tr>
-					<td><img src="/static/uploads/{$v->picture}" width="80" height="80"></td>
-					<td>{$v->link_url}</td>
-					<td>{$v->is_show ? '显示':'不显示'}</td>
-					<td>{$v->order}</td>
+					<td><img src="/static/uploads/{$v->picture}" width="50" height="50"></td>
+					<td>{$v->shop_id}</td>
+					<td>
+						<a class="btn btn-sm text-white {$v->is_show? 'btn-success' : 'btn-danger'}" data-url="{:url('admin/swiper/update', ['id' => $v->id])}" href="javascript:;">{$v->is_show?'已显示':'不显示'}
+						</a>
+					</td>
+					<td>{$v->xh}</td>
+					<td>
+						<a class="btn" href="{:url('admin/swiper/edit', ['id' => $v->id])}">修改</a> | <a class="btn" data-type="delete" href="javascript:;" data-url="{:url('admin/swiper/delete', ['id' => $v->id])}">删除</a>
+					</td>
 				</tr>
 			{/foreach}
 			
 		</tbody>
 	</table>
+	<script type="text/javascript">
+		$(function(){
+			$("a.btn-sm").on('click', function(){
+				const url = $(this).data('url');
+			
+				$.ajax({
+					url:url,
+					type:'post',
+					data:{
+						action:'is_show',
+					},
+					success:res => {
+						console.log(res)
+						if(res.data == 0)
+						{
+							$(this).removeClass('btn-success').addClass('btn-danger').text('不显示');
+						}
+						else{
+							$(this).removeClass('btn-danger').addClass('btn-success').text('已显示');
+						}
+					}
+				})
+			})
+		})
+	</script>
 {/block}

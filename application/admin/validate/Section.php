@@ -4,7 +4,7 @@ namespace app\admin\validate;
 
 use think\Validate;
 
-class Swiper extends Validate
+class Section extends Validate
 {
     /**
      * 定义验证规则
@@ -13,22 +13,15 @@ class Swiper extends Validate
      * @var array
      */	
 	protected $rule = [
-        'picture' => 'require',
-        'shop_id' => 'require',
+        'name' => 'require',
+        'icon' => 'fileExt:jpg,png,jpeg',
     ];
     
-    protected $scene = [
-        'update'  =>  ['shop_id'],
-    ];
     /**
      * 定义错误信息
      * 格式：'字段名.规则名'	=>	'错误信息'
      *
      * @var array
      */	
-
-    protected $message = [
-        'picture.require' => '图片不能为空',
-        'shop_id.require' => '链接地址不能为空',
-    ];
+    protected $message = [];
 }
